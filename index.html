@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Diet Recommendation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #a8edea, #fed6e3);
+            text-align: center;
+            padding: 30px;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            width: 350px;
+            margin: auto;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        input, select, button {
+            width: 90%;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🍎 Smart Diet Recommendation</h1>
+
+    <div class="container">
+        <input type="number" id="age" placeholder="Enter Age" required>
+        
+        <select id="gender">
+            <option value="">Select Gender</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+        </select>
+
+        <input type="number" id="weight" placeholder="Weight (kg)" required>
+        <input type="number" id="height" placeholder="Height (cm)" required>
+
+        <select id="goal">
+            <option value="">Select Goal</option>
+            <option value="weightloss">Weight Loss</option>
+            <option value="weightgain">Weight Gain</option>
+            <option value="maintenance">Maintain Weight</option>
+        </select>
+
+        <button onclick="recommendDiet()">Get Recommendation</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function recommendDiet() {
+            let age = document.getElementById("age").value;
+            let gender = document.getElementById("gender").value;
+            let weight = document.getElementById("weight").value;
+            let height = document.getElementById("height").value;
+            let goal = document.getElementById("goal").value;
+
+            if(age === "" || gender === "" || weight === "" || height === "" || goal === "") {
+                document.getElementById("result").innerHTML = "⚠ Please fill all fields!";
+                return;
+            }
+
+            let recommendation = "";
+
+            if(goal === "weightloss") {
+                recommendation = "🥗 Recommended Diet: High protein, low carbs. Include vegetables, fruits, oats, dal, boiled eggs, and avoid sugary foods.";
+            }
+            else if(goal === "weightgain") {
+                recommendation = "🍞 Recommended Diet: High calorie & protein diet. Include rice, chapati, peanut butter, milk, banana shakes, paneer, nuts.";
+            }
+            else {
+                recommendation = "🍲 Recommended Diet: Balanced diet with proteins, carbs, healthy fats, fruits & vegetables. Stay hydrated!";
+            }
+
+            document.getElementById("result").innerHTML = recommendation;
+        }
+    </script>
+
+</body>
+</html>
