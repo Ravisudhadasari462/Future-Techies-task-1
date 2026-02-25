@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Time Table Manager</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ffd1dc, #ffe4ec);
+            background-image: url("https://images.unsplash.com/photo-1580587771525-78b9dba3b914");
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(255, 209, 220, 0.85);
+            text-align: center;
+        }
+
+        header {
+            padding: 30px;
+            color: #6a1b4d;
+        }
+
+        header h1 {
+            font-size: 40px;
+        }
+
+        .hero-images {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 15px;
+        }
+
+        .hero-images img {
+            width: 110px;
+            height: 110px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .hero-images img:hover {
+            transform: scale(1.1);
+        }
+
+        .container {
+            background: white;
+            width: 420px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        input, select, button {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #ff69b4;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #ff4fa3;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .study {
+            background-color: #ec407a;
+        }
+
+        .hobby {
+            background-color: #ffb74d;
+        }
+
+        .delete-btn {
+            background-color: red;
+            border: none;
+            color: white;
+            padding: 5px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+            margin-top: 30px;
+            padding: 15px;
+            font-size: 14px;
+            color: #6a1b4d;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>📅 My Cute Study Planner</h1>
+
+    <div class="hero-images">
+        <img src="https://cdn-icons-png.flaticon.com/512/29/29302.png" alt="Books">
+        <img src="https://cdn-icons-png.flaticon.com/512/727/727218.png" alt="Music">
+    </div>
+
+    <p>Balance Your Studies 📚 and Hobbies 🎵 in a Smart Way!</p>
+</header>
+
+<div class="container">
+
+    <input type="text" id="task" placeholder="Enter Task Name">
+
+    <select id="type">
+        <option value="">Select Type</option>
+        <option value="study">Study 📚</option>
+        <option value="hobby">Hobby 🎵</option>
+    </select>
+
+    <select id="day">
+        <option value="">Select Day</option>
+        <option>Monday</option>
+        <option>Tuesday</option>
+        <option>Wednesday</option>
+        <option>Thursday</option>
+        <option>Friday</option>
+        <option>Saturday</option>
+        <option>Sunday</option>
+    </select>
+
+    <input type="time" id="time">
+
+    <button onclick="addTask()">Add Task</button>
+
+    <h3>Your Schedule</h3>
+    <ul id="scheduleList"></ul>
+
+</div>
+
+<footer>
+    🌸 Stay Organized, Stay Happy 🌸
+</footer>
+
+<script>
+    window.onload = function() {
+        loadTasks();
+    };
+
+    function addTask() {
+        let task = document.getElementById("task").value;
+        let type = document.getElementById("type").value;
+        let day = document.getElementById("day").value;
+        let time = document.getElementById("time").value;
+
+        if(task === "" || type === "" || day === "" || time === "") {
+            alert("Please fill all fields!");
+            return;
+        }
+
+        let taskObj = { task, type, day, time };
+
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        tasks.push(taskObj);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+
+        displayTask(taskObj);
+
+        document.getElementById("task").value = "";
+        document.getElementById("time").value = "";
+    }
+
+    function displayTask(taskObj) {
+        let li = document.createElement("li");
+        li.className = taskObj.type;
+
+        li.innerHTML = taskObj.day + " - " + taskObj.time + " : " + taskObj.task +
+            "<button class='delete-btn' onclick='deleteTask(this)'>X</button>";
+
+        document.getElementById("scheduleList").appendChild(li);
+    }
+
+    function loadTasks() {
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        tasks.forEach(task => displayTask(task));
+    }
+
+    function deleteTask(button) {
+        let li = button.parentElement;
+        li.remove();
+        localStorage.clear();
+    }
+</script>
+
+</body>
+</html>
